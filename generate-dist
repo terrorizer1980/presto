@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Builds a tarball that can be used by the EMR bootstrap process
+# See https://github.com/mombergm/emr-bootstrap-actions/tree/master/presto/EMR-4.0.0#build-your-own-binary
+
+set -ex
+
+DIST_DIR="dist"
+BIN_DIR="$DIST_DIR/bin"
+LIB_DIR="$DIST_DIR/lib"
+PLUGIN_DIR="$DIST_DIR/plugin"
+
+rm -rf $DIST_DIR
+mkdir $DIST_DIR
+
+touch $DIST_DIR/README.txt
+touch $DIST_DIR/NOTICE
+
+cp -r `find presto-server -name "bin"` $BIN_DIR
+cp -r `find presto-server -name "lib"` $LIB_DIR
+cp -r `find presto-server -name "plugin"` $PLUGIN_DIR
+
+tar czf presto-server.tar.gz $DIST_DIR
